@@ -5,41 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>إنشاء صفحة بيع</title>
 <style>
-body{
-font-family:Tahoma;
-background:#f5f6fa;
-padding:20px;
-direction:rtl;
-}
-.box{
-max-width:500px;
-margin:auto;
-background:#fff;
-padding:20px;
-border-radius:12px;
-box-shadow:0 0 10px rgba(0,0,0,.1);
-}
-input,textarea{
-width:100%;
-margin:8px 0;
-padding:12px;
-border-radius:8px;
-border:1px solid #ddd;
-}
-button{
-background:#25D366;
-color:white;
-border:none;
-padding:15px;
-width:100%;
-border-radius:10px;
-font-size:16px;
-cursor:pointer;
-}
-#result{
-margin-top:15px;
-word-break:break-all;
-}
+body{font-family:Tahoma;background:#f5f6fa;padding:20px;direction:rtl;}
+.box{max-width:500px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,.1);}
+input,textarea{width:100%;margin:8px 0;padding:12px;border-radius:8px;border:1px solid #ddd;}
+button{background:#25D366;color:white;border:none;padding:15px;width:100%;border-radius:10px;font-size:16px;cursor:pointer;margin-top:8px;}
+#result{margin-top:15px;word-break:break-all;}
 </style>
 </head>
 <body>
@@ -52,31 +22,41 @@ word-break:break-all;
 <input id="phone" placeholder="رقم واتساب 2010xxxxxxx">
 <textarea id="desc" placeholder="اكتب وصف بسيط للمنتج"></textarea>
 
+<button onclick="generateMarketing()">إنشاء وصف تسويقي</button>
 <button onclick="generate()">إنشاء الرابط</button>
 
 <div id="result"></div>
 </div>
 
 <script>
-function generate(){
-let name=document.getElementById("name").value;
-let price=document.getElementById("price").value;
-let phone=document.getElementById("phone").value;
-let desc=document.getElementById("desc").value;
-
-let data={
-name:name,
-price:price,
-phone:phone,
-desc:desc
+function generateMarketing(){
+  let simpleDesc = document.getElementById("desc").value;
+  if(simpleDesc.trim()==""){
+    alert("اكتب وصف بسيط أولاً!");
+    return;
+  }
+  // نسخة تجريبية تحاكي AI
+  let marketingDesc = simpleDesc + " 🌟 منتج مميز وفاخر، مثالي لكل المناسبات ويمنحك قيمة مقابل السعر.";
+  document.getElementById("desc").value = marketingDesc;
 }
 
-let encoded=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+function generate(){
+  let name=document.getElementById("name").value;
+  let price=document.getElementById("price").value;
+  let phone=document.getElementById("phone").value;
+  let desc=document.getElementById("desc").value;
 
-let url=location.origin+"/p.html#"+encoded;
+  if(name==""||price==""||phone==""||desc==""){
+    alert("املأ كل الحقول!");
+    return;
+  }
 
-document.getElementById("result").innerHTML=
-"رابط صفحتك:<br><a href='"+url+"' target='_blank'>"+url+"</a>";
+  let data={name:name,price:price,phone:phone,desc:desc};
+  let encoded=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+  let url=location.origin+"/p.html#"+encoded;
+
+  document.getElementById("result").innerHTML=
+  "رابط صفحتك:<br><a href='"+url+"' target='_blank'>"+url+"</a>";
 }
 </script>
 
