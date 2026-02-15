@@ -5,43 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>المنتج</title>
 <style>
-body{
-font-family:Tahoma;
-background:#f7f7f7;
-margin:0;
-padding:0;
-direction:rtl;
-}
-.card{
-max-width:600px;
-margin:auto;
-background:white;
-padding:20px;
-margin-top:30px;
-border-radius:14px;
-box-shadow:0 0 12px rgba(0,0,0,.12);
-}
+body{font-family:Tahoma;background:#f7f7f7;margin:0;padding:0;direction:rtl;}
+.card{max-width:600px;margin:auto;background:white;padding:20px;margin-top:30px;border-radius:14px;box-shadow:0 0 12px rgba(0,0,0,.12);}
 h1{margin-top:0}
-.price{
-font-size:24px;
-color:#27ae60;
-margin:10px 0;
-}
-.desc{
-line-height:1.8;
-color:#444;
-}
-.btn{
-display:block;
-text-align:center;
-background:#25D366;
-color:white;
-padding:16px;
-border-radius:12px;
-text-decoration:none;
-font-size:18px;
-margin-top:20px;
-}
+.price{font-size:24px;color:#27ae60;margin:10px 0;}
+.desc{line-height:1.8;color:#444;}
+.btn{display:block;text-align:center;background:#25D366;color:white;padding:16px;border-radius:12px;text-decoration:none;font-size:18px;margin-top:20px;}
 </style>
 </head>
 <body>
@@ -55,14 +24,20 @@ margin-top:20px;
 
 <script>
 let hash=location.hash.substring(1);
-let data=JSON.parse(decodeURIComponent(escape(atob(hash))));
+if(hash){
+  let data=JSON.parse(decodeURIComponent(escape(atob(hash))));
+  document.getElementById("name").innerText=data.name;
+  document.getElementById("price").innerText="السعر: "+data.price;
+  document.getElementById("desc").innerText=data.desc;
 
-document.getElementById("name").innerText=data.name;
-document.getElementById("price").innerText="السعر: "+data.price;
-document.getElementById("desc").innerText=data.desc;
-
-let message=encodeURIComponent("مرحبًا، أريد طلب: "+data.name);
-document.getElementById("wa").href="https://wa.me/"+data.phone+"?text="+message;
+  let message=encodeURIComponent("مرحبًا، أريد طلب: "+data.name+" - "+data.desc);
+  document.getElementById("wa").href="https://wa.me/"+data.phone+"?text="+message;
+} else {
+  document.getElementById("name").innerText="خطأ: الرابط غير صالح";
+  document.getElementById("price").innerText="";
+  document.getElementById("desc").innerText="";
+  document.getElementById("wa").style.display="none";
+}
 </script>
 
 </body>
